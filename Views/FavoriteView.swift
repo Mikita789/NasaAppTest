@@ -17,7 +17,6 @@ struct FavoriteView: View {
     ]
     
     @State private var isShowDetails : Bool = false
-    @State private var currentPhoto: NasaUserItemModel?
     
     var body: some View {
         NavigationStack {
@@ -47,13 +46,6 @@ struct FavoriteView: View {
                 .navigationTitle("Favorite")
                 
             }
-            .sheet(isPresented: $isShowDetails, content: {
-                //detail view
-                
-                if let currentItem = self.currentPhoto{
-                    DetailsView(currentItem: currentItem)
-                }
-            })
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
