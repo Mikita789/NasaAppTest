@@ -32,7 +32,6 @@ struct NetwManager{
         }
         
         let (data, _) = try await urlSession.data(from: finalURL)
-        //let result = NasaPicUserModel(netwItem: try self.parseJS(data: data))
         let result = NasaUserItemModel(nasaPic: try self.parseJS(data: data))
         return result
     }
