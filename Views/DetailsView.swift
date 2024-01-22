@@ -38,6 +38,9 @@ struct DetailsView: View {
                         
                     }
                 }
+                .onAppear{
+                    print("load view/n\(currentItem.title)")
+                }
         }
         
     }

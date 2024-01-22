@@ -14,7 +14,6 @@ struct RandomPicView: View {
     ]
     
     @State private var isShowDetail = false
-    @State private var currentPhotoItem: NasaUserItemModel?
     @State private var searchText = ""
     @State private var selectedItem: NasaUserItemModel?
     
@@ -26,9 +25,8 @@ struct RandomPicView: View {
                         ForEach(model.allPic, id: \.id) { item in
                             RandonImageNasaView(item: item)
                                 .onTapGesture {
-                                    print(item.title)
                                     self.selectedItem = item
-                                    self.isShowDetail = true
+                                    self.isShowDetail.toggle()
                                 }
                         }
                     }
@@ -54,12 +52,10 @@ struct RandomPicView: View {
                 .padding()
                 .scrollIndicators(.never)
                 .frame(maxWidth: .infinity)
-
+                
             }
-            .sheet(isPresented: $isShowDetail, content: {
-                if let selectedItem = self.selectedItem{
-                    DetailsView(currentItem: selectedItem)
-                }
+            .sheet(item: $selectedItem, content: { item in
+                DetailsView(currentItem: item)
             })
             .navigationTitle("Pictures of The Day")
         }
