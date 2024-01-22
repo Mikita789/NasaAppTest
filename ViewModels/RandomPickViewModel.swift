@@ -45,7 +45,7 @@ class RandomPickViewModel: ObservableObject{
     
     func getRandPic(count: Int = 20) async throws {
         self.allPic = []
-        let randDate = self.fetchDateStrArr(count: 20)
+        let randDate = self.fetchDateStrArr(count: count)
         for date in randDate{
             var onePic:NasaUserItemModel?
             onePic = try await netwManager.fetchOnePic(date: date)

@@ -16,6 +16,7 @@ struct RandomPicView: View {
     @State private var isShowDetail = false
     @State private var currentPhotoItem: NasaUserItemModel?
     @State private var searchText = ""
+    @State private var selectedItem: NasaUserItemModel?
     
     var body: some View {
         NavigationView{
@@ -24,9 +25,15 @@ struct RandomPicView: View {
                     LazyVGrid(columns: columns){
                         ForEach(model.allPic, id: \.id) { item in
                             RandonImageNasaView(item: item)
+                                .onTapGesture {
+                                    print(item.title)
+                                    self.selectedItem = item
+                                    self.isShowDetail = true
+                                }
                         }
                     }
                 }
+                
                 .refreshable {
                     Task{
                         searchText == "" ? try await model.getRandPic() : try await model.getSearchItems(text: searchText)
@@ -49,6 +56,11 @@ struct RandomPicView: View {
                 .frame(maxWidth: .infinity)
 
             }
+            .sheet(isPresented: $isShowDetail, content: {
+                if let selectedItem = self.selectedItem{
+                    DetailsView(currentItem: selectedItem)
+                }
+            })
             .navigationTitle("Pictures of The Day")
         }
     }

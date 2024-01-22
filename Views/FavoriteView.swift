@@ -17,6 +17,7 @@ struct FavoriteView: View {
     ]
     
     @State private var isShowDetails : Bool = false
+    @State private var selectedItem: NasaUserItemModel?
     
     var body: some View {
         NavigationStack {
@@ -25,8 +26,10 @@ struct FavoriteView: View {
                     LazyVGrid(columns: columns) {
                         ForEach(allItems){ dataItem in
                             ZStack(alignment: .topTrailing){
-                                RandonImageNasaView(item: self.dataItemToUserItem(dataItem),
-                                                    isFavoriteView: true)
+                                RandonImageNasaView(item: self.dataItemToUserItem(dataItem))
+                                    .onTapGesture {
+                                        self.selectedItem = self.dataItemToUserItem(dataItem)
+                                    }
                                 Button(action: {
                                     withAnimation(.easeInOut(duration: 0.3)) {
                                         DataManager.shared.deleteItem(item: dataItem, context: context)
@@ -46,6 +49,10 @@ struct FavoriteView: View {
                 .navigationTitle("Favorite")
                 
             }
+            .sheet(item: $selectedItem, content: { item in
+                DetailsView(currentItem: item)
+                
+            })
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {

@@ -10,9 +10,7 @@ import SwiftUI
 struct RandonImageNasaView: View {
     var item: NasaUserItemModel
     @State private var isShowDetailView: Bool = false
-
-    var isFavoriteView: Bool = false
-        
+    
     var body: some View {
         ZStack(alignment: .topTrailing){
             AsyncImage(url: URL(string: item.url),scale: 0.5) { im in
@@ -25,13 +23,9 @@ struct RandonImageNasaView: View {
                 ProgressView()
             }
             .padding(.vertical, 20)
-            .onTapGesture {
-                isShowDetailView.toggle()
-            }
+        
         }
-        .sheet(isPresented: $isShowDetailView, content: {
-            DetailsView(currentItem: item)
-        })
+
         
     }
 }
